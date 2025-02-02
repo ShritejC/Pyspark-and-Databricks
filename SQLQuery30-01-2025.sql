@@ -233,36 +233,4 @@ where sp.TerritoryID in(select TerritoryID from Sales.SalesTerritory st where [G
 ---------------------------------------------------------------------------------------------------------------------------
 
 
--- Questionaries
 
---1) find the average currency rate conversion from USD to Algerian Dinar and Australian Doller 
-
-select * from Sales.CurrencyRate
-select * from Sales.Currency
-
-select AverageRate from Sales.CurrencyRate where FromCurrencyCode='USD' and ToCurrencyCode='AUD' or ToCurrencyCode='DZD'
-
-
--- 2)Find the products having offer on it and display product name , safety Stock Level,
---Listprice,  and product model id,type of discount,  percentage of discount,  offer start date and offer end date
-  
-select * from Sales.SpecialOffer --special offer id,discount type,discount percent,offer S_dates E_dates,description.
-select * from Sales.SpecialOfferProduct--special offer id,product id
-select * from Sales.SalesOrderDetail --product id, special offer id
-select * from Production.Product --prodcut id,product name,safety stock,listprice,product model id
-
-
-select 
-(Select Description from Sales.SpecialOffer so where so.SpecialOfferID=sod.SpecialOfferID)descrip,
-(Select DiscountPct from Sales.SpecialOffer so where so.SpecialOfferID=sod.SpecialOfferID)disc,
-(Select Type from Sales.SpecialOffer so where so.SpecialOfferID=sod.SpecialOfferID)typeofdisc,
-(Select StartDate from Sales.SpecialOffer so where so.SpecialOfferID=sod.SpecialOfferID)sd,
-(Select EndDate from Sales.SpecialOffer so where so.SpecialOfferID=sod.SpecialOfferID)ed,
-(Select Name from Production.Product p where p.ProductID=sod.ProductID)P_name,
-(Select SafetyStockLevel from Production.Product p where p.ProductID=sod.ProductID)SSlevel,
-(Select ListPrice from Production.Product p where p.ProductID=sod.ProductID)L_price,
-(Select ProductModelID from Production.Product p where p.ProductID=sod.ProductID)ModelId
-from Sales.SalesOrderDetail sod
-
-
---3)create  view to display Product name and Product review
